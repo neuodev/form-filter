@@ -101,7 +101,7 @@
       <hr />
 
       <div class="row">
-        <ul>
+        <!-- <ul>
           {% for journal in queryset %}
             <li>
               {{ journal.title }}
@@ -118,7 +118,46 @@
             <hr />
           {% endfor %}
         </ul>
-      </div>
+      </div> -->
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Categories</th>
+            <th scope="col">Publish Date</th>
+            <th scope="col">Views</th>
+            <th scope="col">Reviewed</th>
+          </tr>
+        </thead>
+        {% for journal in queryset %}
+        <tr>
+          <th scope="col">{{ journal.id }}</th>
+          <th scope="col">{{ journal.title }}</th>
+          <th scope="col">{{ journal.author }}</th>
+          <th scope="col">
+            {% if journal.cagegorie %}
+            {% for cat in journal.cagegorie %}
+            <span>{{ cat }}</span>
+            {% endfor %}
+            {% else  %}
+            <p class="text-danger">No Category</p>
+            {% endif %}
+          </th>
+          <th scope="col">{{ journal.publish_date }} </th>
+          <th scope="col">{{ journal.views }}</th>
+          <th scope="col text-center">
+            {% if journal.reviewd %}
+                <i class="fa fa-check-circle text-success" aria-hidden="true"></i>
+            {% else %}
+                <i class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+            {% endif %}
+          </th>
+        </tr>
+        {% endfor %}
+      </table>
 
     </main>
 
