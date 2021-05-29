@@ -40,7 +40,7 @@ def generate_publish_date():
 
     return datetime.date(year,month,day)
 
-class Commend(BaseCommand):
+class Command(BaseCommand):
 
     def add_arguments(self, parser):
         # This is the input -> file name
@@ -49,15 +49,39 @@ class Commend(BaseCommand):
             type=str,
             help='This txt file that contains the journal titles'
             ) 
-    def handle(self, *args: Any, **options: Any):
+    def handle(self, *args, **options):
         file_name = options['file_name']
         with open(f'{file_name}.txt') as file:
             for row in file:
                title = row 
-               author= generate_author_name()
-               category = generate_category()
+               author_name= generate_author_name()
+               category_name = generate_category()
                publish_date = generate_publish_date()
                views = generate_views()
                reviewed = generate_is_reviewed()
 
-               print(title,author ,category,publish_date,views,reviewed)
+                # Every loop it will create the user if it's need to 
+               author = Author.objects.get_or_create(
+                   name= author_name
+               )
+
+               journal = Journal(
+                   title=title,
+                   author = Author.objects.get(name=author_name),
+                   publish_date=publish_date,
+                   views=views,
+                   reviewed = reviewed
+               )
+
+               journal.save()
+
+               category = Category.objects.get_or_create(
+                   name= category_name
+               ) 
+               
+               journal.categories.add(
+                   Category.objects.get(name=category_name)
+               )
+
+               self.stdout.write(self.style.SUCCESS('Data Imported successfully'))
+
