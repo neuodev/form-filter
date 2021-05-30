@@ -101,25 +101,6 @@
       <hr />
 
       <div class="row">
-        <!-- <ul>
-          {% for journal in queryset %}
-            <li>
-              {{ journal.title }}
-              <span>Author: {{ journal.author.name }}</span>
-              <span>
-                {% for cat in journal.categories.all %}
-                  {{ cat }}
-                {% endfor %}
-              </span>
-              <span>Publish date: {{ journal.publish_date }}</span>
-              <span>View count: {{ journal.views }}</span>
-              <span>Reviewed: {{ journal.reviewed }}</span>
-            </li>
-            <hr />
-          {% endfor %}
-        </ul>
-      </div> -->
-
       <table class="table">
         <thead>
           <tr>
@@ -138,8 +119,8 @@
           <th scope="col">{{ journal.title }}</th>
           <th scope="col">{{ journal.author }}</th>
           <th scope="col">
-            {% if journal.cagegorie %}
-            {% for cat in journal.cagegorie %}
+            {% if journal.categories %}
+            {% for cat in journal.categories.all %}
             <span>{{ cat }}</span>
             {% endfor %}
             {% else  %}
