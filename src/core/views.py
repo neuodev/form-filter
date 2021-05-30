@@ -50,6 +50,7 @@ def BootstrapFilterView(req):
 
     if is_valid_queryparam(category) and category != 'Choose...':
         qs = qs.filter(categories__name=category)
+    print(qs[0].categories,'here')
     return render(req, "bootstrap_form.html" , {
         'queryset':qs,
         'categories': categories
